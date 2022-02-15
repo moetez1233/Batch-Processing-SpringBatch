@@ -23,6 +23,8 @@ public class JobRestController {
 	private JobLauncher jobLauncher; // qu'il va demarrer le job
 	@Autowired
 	private Job job;
+	@Autowired
+	private BankTransactionItemAnalyticsProcessor analyticsProcessor;
 	
 	@GetMapping("/startJob")
 	public BatchStatus load() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
@@ -40,5 +42,16 @@ public class JobRestController {
 		  return jobExecution.getStatus();
 		
 	}
+	/* =============================== appel du processor de modefication BankTransactionItemAnalyticsProcessor*/
+	@GetMapping("/analytics")
+	public Map<String,Double> analytics(){
+		Map<String,Double> map=new HashMap<>();
+		map.put("TotalCredit",analyticsProcessor.getTotalCredit());
+		map.put("TotalDebit",analyticsProcessor.getTotalDebit());
+return map;
+	}
+	
+	/* =============================== La fin d'appel du processor de modefication BankTransactionItemAnalyticsProcessor*/
+
 
 }
