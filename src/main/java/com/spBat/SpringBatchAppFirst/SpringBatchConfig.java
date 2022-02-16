@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -63,6 +64,8 @@ public class SpringBatchConfig {
 		List<ItemProcessor<BankTransaction,BankTransaction>> itemProcessors=new ArrayList<>();
 		itemProcessors.add(itemProcessor1());
 		itemProcessors.add(itemProcessor2());
+		itemProcessors.add(itemProcessor3());
+
 		CompositeItemProcessor<BankTransaction,BankTransaction> compositeItemProcessor =new CompositeItemProcessor<>();
 		compositeItemProcessor.setDelegates(itemProcessors);
 		return compositeItemProcessor;
@@ -75,6 +78,11 @@ public class SpringBatchConfig {
 	@Bean
 	BankTransactionItemAnalyticsProcessor itemProcessor2(){
 		return new BankTransactionItemAnalyticsProcessor();
+		
+	}
+@Bean
+	public BankTransactionItemUpdateProcessor itemProcessor3(){
+		return new BankTransactionItemUpdateProcessor();
 		
 	}
 	

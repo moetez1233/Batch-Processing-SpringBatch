@@ -1,6 +1,7 @@
 package com.spBat.SpringBatchAppFirst;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.batch.core.BatchStatus;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spBat.SpringBatchAppFirst.dao.a.BankTransactionRepository;
+
 @RestController
 public class JobRestController {
 	@Autowired
@@ -25,7 +28,10 @@ public class JobRestController {
 	private Job job;
 	@Autowired
 	private BankTransactionItemAnalyticsProcessor analyticsProcessor;
-	
+	@Autowired
+	private BankTransactionItemUpdateProcessor ModefyProcessor;
+	@Autowired 
+	private BankTransactionRepository bankTransactionRepository;
 	@GetMapping("/startJob")
 	public BatchStatus load() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
 		/*============================= end lancer un job =========================== */
@@ -52,6 +58,10 @@ return map;
 	}
 	
 	/* =============================== La fin d'appel du processor de modefication BankTransactionItemAnalyticsProcessor*/
-
+	@GetMapping("/ModifyStat")
+	public List<BankTransaction> chageStatus(){
+	return this.bankTransactionRepository.findAll();
+	
+}
 
 }
